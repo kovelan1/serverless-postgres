@@ -1,0 +1,54 @@
+service: serverless-dynamodb
+
+frameworkVersion: '2'
+
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: '20201221'
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - http:
+          path: /
+          method: get
+  
+  getAllUsers:
+    handler: src/admin.getAllUsers
+    events:
+      - http:
+          path: /api/kyc/userlist
+          method: get
+          cors: true  
+
+  getSubmitionByuser:
+    handler: src/admin.getSubmitionByuser
+    events:
+      - http:
+          path: /api/kyc/user/submissions/{id}
+          method: get
+          cors: true  
+
+  getOCRbySubmission:
+    handler: src/admin.getOCRbySubmission
+    events:
+      - http:
+          path: /api/kyc/ocrinfo/{id}
+          method: get
+          cors: true  
+  
+  getCheckBySubmission:
+    handler: src/admin.getCheckBySubmission
+    events:
+      - http:
+          path: /api/kyc/ktpcheck/{id}
+          method: get
+          cors: true  
+
+         
+
+plugins:
+- serverless-offline 
